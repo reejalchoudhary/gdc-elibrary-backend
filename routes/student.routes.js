@@ -14,3 +14,5 @@ router.put('/profile', isStudent, updateProfile);
 
 export default router;
 
+
+
