@@ -49,7 +49,6 @@ const pyqSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for faster queries
 pyqSchema.index({ department: 1, year: 1 });
 pyqSchema.index({ category: 1 });
 

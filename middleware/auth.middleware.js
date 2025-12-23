@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.model.js';
 
-// Verify JWT access token
 export const authenticate = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -13,7 +12,7 @@ export const authenticate = async (req, res, next) => {
       });
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const token = authHeader.substring(7);
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -26,7 +25,6 @@ export const authenticate = async (req, res, next) => {
         });
       }
 
-      // Check if user is blocked
       if (user.status === 'blocked') {
         return res.status(403).json({
           success: false,
@@ -53,7 +51,6 @@ export const authenticate = async (req, res, next) => {
   }
 };
 
-// Verify refresh token
 export const verifyRefreshToken = async (req, res, next) => {
   try {
     const { refreshToken } = req.body;
@@ -88,6 +85,7 @@ export const verifyRefreshToken = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 

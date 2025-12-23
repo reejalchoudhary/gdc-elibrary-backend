@@ -17,11 +17,9 @@ import { isAdmin } from '../middleware/role.middleware.js';
 
 const router = express.Router();
 
-// All routes require admin authentication
 router.use(authenticate);
 router.use(isAdmin);
 
-// Student management
 router.get('/students', getAllStudents);
 router.get('/students/pending', getPendingStudents);
 router.put('/students/:studentId/approve', approveStudent);
@@ -29,15 +27,11 @@ router.delete('/students/:studentId/reject', rejectStudent);
 router.put('/students/:studentId/block', blockStudent);
 router.put('/students/:studentId/unblock', unblockStudent);
 
-// Content management
 router.delete('/books/:bookId', deleteBook);
 router.delete('/notes/:noteId', deleteNote);
 router.delete('/pyqs/:pyqId', deletePYQ);
-
-// Discussion management
 router.delete('/discussions/:messageId', deleteDiscussionMessage);
 
-// Dashboard
 router.get('/dashboard/stats', getDashboardStats);
 
 export default router;

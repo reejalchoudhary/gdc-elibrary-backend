@@ -1,6 +1,5 @@
 import Discussion from '../models/Discussion.model.js';
 
-// Get all discussions
 export const getAllDiscussions = async (req, res, next) => {
   try {
     const discussions = await Discussion.find()
@@ -17,7 +16,6 @@ export const getAllDiscussions = async (req, res, next) => {
   }
 };
 
-// Create discussion message
 export const createDiscussion = async (req, res, next) => {
   try {
     const { text } = req.body;
@@ -51,7 +49,6 @@ export const createDiscussion = async (req, res, next) => {
   }
 };
 
-// Delete discussion message (admin only)
 export const deleteDiscussion = async (req, res, next) => {
   try {
     const { messageId } = req.params;
@@ -75,6 +72,7 @@ export const deleteDiscussion = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 

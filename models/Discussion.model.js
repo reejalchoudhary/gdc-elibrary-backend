@@ -30,12 +30,12 @@ const discussionSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for faster queries
 discussionSchema.index({ createdAt: -1 });
 
 const Discussion = mongoose.model('Discussion', discussionSchema);
 
 export default Discussion;
+
 
 
 

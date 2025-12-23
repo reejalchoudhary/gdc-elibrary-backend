@@ -1,11 +1,8 @@
 import multer from 'multer';
 
-// Configure multer for memory storage
 const storage = multer.memoryStorage();
 
-// File filter
 const fileFilter = (req, file, cb) => {
-  // Allowed file types
   const allowedTypes = [
     'application/pdf',
     'application/msword',
@@ -24,16 +21,14 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Configure multer
 export const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 30 * 1024 * 1024 // 30MB max file size
+    fileSize: 30 * 1024 * 1024
   },
   fileFilter: fileFilter
 });
 
-// Middleware to convert file to base64 for MongoDB storage
 export const handleFileUpload = async (req, res, next) => {
   try {
     if (!req.file) {
@@ -43,7 +38,6 @@ export const handleFileUpload = async (req, res, next) => {
       });
     }
 
-    // Convert file buffer to base64
     const base64Data = req.file.buffer.toString('base64');
     const dataUrl = `data:${req.file.mimetype};base64,${base64Data}`;
     

@@ -10,14 +10,13 @@ import { isAdmin } from '../middleware/role.middleware.js';
 
 const router = express.Router();
 
-// Public route (viewing discussions)
 router.get('/', getAllDiscussions);
 
-// Protected routes
 router.post('/', authenticate, isApproved, createDiscussion);
 router.delete('/:messageId', authenticate, isAdmin, deleteDiscussion);
 
 export default router;
+
 
 
 

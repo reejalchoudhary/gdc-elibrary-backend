@@ -1,12 +1,10 @@
 import User from '../models/User.model.js';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt.utils.js';
 
-// Student Registration
 export const registerStudent = async (req, res, next) => {
   try {
     const { name, email, password, rollno, department, year, mobile } = req.body;
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       return res.status(400).json({
@@ -15,7 +13,6 @@ export const registerStudent = async (req, res, next) => {
       });
     }
 
-    // Create new student with pending status
     const student = await User.create({
       name,
       email: email.toLowerCase(),
@@ -43,7 +40,6 @@ export const registerStudent = async (req, res, next) => {
   }
 };
 
-// Student Login
 export const loginStudent = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -55,7 +51,6 @@ export const loginStudent = async (req, res, next) => {
       });
     }
 
-    // Find user
     const user = await User.findOne({ email: email.toLowerCase() });
 
     if (!user) {
@@ -65,7 +60,6 @@ export const loginStudent = async (req, res, next) => {
       });
     }
 
-    // Check if user is a student
     if (user.role !== 'student') {
       return res.status(403).json({
         success: false,
@@ -73,7 +67,6 @@ export const loginStudent = async (req, res, next) => {
       });
     }
 
-    // Check password
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -82,7 +75,6 @@ export const loginStudent = async (req, res, next) => {
       });
     }
 
-    // Check if account is approved
     if (user.status === 'pending') {
       return res.status(403).json({
         success: false,
@@ -97,11 +89,9 @@ export const loginStudent = async (req, res, next) => {
       });
     }
 
-    // Generate tokens
     const accessToken = generateAccessToken(user._id);
     const refreshToken = generateRefreshToken(user._id);
 
-    // Save refresh token to database
     user.refreshToken = refreshToken;
     await user.save();
 
@@ -128,7 +118,6 @@ export const loginStudent = async (req, res, next) => {
   }
 };
 
-// Admin Login
 export const loginAdmin = async (req, res, next) => {
   try {
     const { username, password } = req.body;
@@ -140,7 +129,6 @@ export const loginAdmin = async (req, res, next) => {
       });
     }
 
-    // Find admin user (can be by username/email)
     const user = await User.findOne({
       $or: [
         { email: username.toLowerCase() },
@@ -156,7 +144,6 @@ export const loginAdmin = async (req, res, next) => {
       });
     }
 
-    // Check password
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -165,11 +152,9 @@ export const loginAdmin = async (req, res, next) => {
       });
     }
 
-    // Generate tokens
     const accessToken = generateAccessToken(user._id);
     const refreshToken = generateRefreshToken(user._id);
 
-    // Save refresh token to database
     user.refreshToken = refreshToken;
     await user.save();
 
@@ -192,16 +177,12 @@ export const loginAdmin = async (req, res, next) => {
   }
 };
 
-// Refresh Access Token
 export const refreshToken = async (req, res, next) => {
   try {
     const user = req.user;
-
-    // Generate new tokens
     const accessToken = generateAccessToken(user._id);
     const refreshToken = generateRefreshToken(user._id);
 
-    // Update refresh token in database
     user.refreshToken = refreshToken;
     await user.save();
 
@@ -217,12 +198,9 @@ export const refreshToken = async (req, res, next) => {
   }
 };
 
-// Logout
 export const logout = async (req, res, next) => {
   try {
     const user = req.user;
-
-    // Remove refresh token
     user.refreshToken = null;
     await user.save();
 
@@ -235,7 +213,6 @@ export const logout = async (req, res, next) => {
   }
 };
 
-// Get Current User
 export const getCurrentUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id).select('-password -refreshToken');
@@ -248,6 +225,7 @@ export const getCurrentUser = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 

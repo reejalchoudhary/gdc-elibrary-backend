@@ -49,7 +49,6 @@ const bookSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for faster queries
 bookSchema.index({ department: 1, year: 1 });
 bookSchema.index({ category: 1 });
 

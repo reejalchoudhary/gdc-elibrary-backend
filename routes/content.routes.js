@@ -16,7 +16,6 @@ import { upload, handleFileUpload } from '../middleware/upload.middleware.js';
 
 const router = express.Router();
 
-// Public routes (viewing)
 router.get('/books', getAllBooks);
 router.get('/books/:bookId', getBook);
 router.get('/notes', getAllNotes);
@@ -24,12 +23,12 @@ router.get('/notes/:noteId', getNote);
 router.get('/pyqs', getAllPYQs);
 router.get('/pyqs/:pyqId', getPYQ);
 
-// Protected routes (uploading)
 router.post('/books', authenticate, isApproved, upload.single('file'), handleFileUpload, uploadBook);
 router.post('/notes', authenticate, isApproved, upload.single('file'), handleFileUpload, uploadNote);
 router.post('/pyqs', authenticate, isApproved, upload.single('file'), handleFileUpload, uploadPYQ);
 
 export default router;
+
 
 
 

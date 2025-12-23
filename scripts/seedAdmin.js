@@ -6,19 +6,16 @@ dotenv.config();
 
 const seedAdmin = async () => {
   try {
-    // Connect to MongoDB
     const MONGODB_URI = process.env.MONGODB_URI || process.env.MONGO_URI || 'mongodb://localhost:27017/gdc-elibrary';
     await mongoose.connect(MONGODB_URI);
     console.log('✅ Connected to MongoDB');
 
-    // Check if admin already exists
     const existingAdmin = await User.findOne({ role: 'admin' });
     if (existingAdmin) {
       console.log('⚠️  Admin user already exists');
       process.exit(0);
     }
 
-    // Create admin user
     const admin = await User.create({
       name: 'Admin',
       email: process.env.ADMIN_EMAIL || 'admin@gdcnagrota.edu.in',

@@ -49,7 +49,6 @@ const noteSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index for faster queries
 noteSchema.index({ department: 1, year: 1 });
 noteSchema.index({ category: 1 });
 

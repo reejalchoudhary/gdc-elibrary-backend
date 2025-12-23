@@ -4,9 +4,6 @@ import Note from '../models/Note.model.js';
 import PYQ from '../models/PYQ.model.js';
 import Discussion from '../models/Discussion.model.js';
 
-// ============ STUDENT MANAGEMENT ============
-
-// Get all students with filters
 export const getAllStudents = async (req, res, next) => {
   try {
     const { status, department, search } = req.query;
@@ -36,7 +33,6 @@ export const getAllStudents = async (req, res, next) => {
   }
 };
 
-// Get pending students
 export const getPendingStudents = async (req, res, next) => {
   try {
     const students = await User.find({ role: 'student', status: 'pending' })
@@ -53,7 +49,6 @@ export const getPendingStudents = async (req, res, next) => {
   }
 };
 
-// Approve student
 export const approveStudent = async (req, res, next) => {
   try {
     const { studentId } = req.params;
@@ -85,7 +80,6 @@ export const approveStudent = async (req, res, next) => {
   }
 };
 
-// Reject student (delete)
 export const rejectStudent = async (req, res, next) => {
   try {
     const { studentId } = req.params;
@@ -110,7 +104,6 @@ export const rejectStudent = async (req, res, next) => {
   }
 };
 
-// Block student
 export const blockStudent = async (req, res, next) => {
   try {
     const { studentId } = req.params;
@@ -125,7 +118,7 @@ export const blockStudent = async (req, res, next) => {
     }
 
     student.status = 'blocked';
-    student.refreshToken = null; // Invalidate all sessions
+    student.refreshToken = null;
     await student.save();
 
     res.json({
@@ -143,7 +136,6 @@ export const blockStudent = async (req, res, next) => {
   }
 };
 
-// Unblock student
 export const unblockStudent = async (req, res, next) => {
   try {
     const { studentId } = req.params;
@@ -175,9 +167,6 @@ export const unblockStudent = async (req, res, next) => {
   }
 };
 
-// ============ CONTENT MANAGEMENT ============
-
-// Delete book
 export const deleteBook = async (req, res, next) => {
   try {
     const { bookId } = req.params;
@@ -202,7 +191,6 @@ export const deleteBook = async (req, res, next) => {
   }
 };
 
-// Delete note
 export const deleteNote = async (req, res, next) => {
   try {
     const { noteId } = req.params;
@@ -227,7 +215,6 @@ export const deleteNote = async (req, res, next) => {
   }
 };
 
-// Delete PYQ
 export const deletePYQ = async (req, res, next) => {
   try {
     const { pyqId } = req.params;
@@ -252,9 +239,6 @@ export const deletePYQ = async (req, res, next) => {
   }
 };
 
-// ============ DISCUSSION MANAGEMENT ============
-
-// Delete discussion message (admin)
 export const deleteDiscussionMessage = async (req, res, next) => {
   try {
     const { messageId } = req.params;
@@ -279,9 +263,6 @@ export const deleteDiscussionMessage = async (req, res, next) => {
   }
 };
 
-// ============ DASHBOARD STATS ============
-
-// Get dashboard statistics
 export const getDashboardStats = async (req, res, next) => {
   try {
     const [

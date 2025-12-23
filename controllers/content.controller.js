@@ -3,9 +3,6 @@ import Note from '../models/Note.model.js';
 import PYQ from '../models/PYQ.model.js';
 import User from '../models/User.model.js';
 
-// ============ BOOKS ============
-
-// Upload book
 export const uploadBook = async (req, res, next) => {
   try {
     const { name, category, department, year } = req.body;
@@ -41,7 +38,6 @@ export const uploadBook = async (req, res, next) => {
   }
 };
 
-// Get all books
 export const getAllBooks = async (req, res, next) => {
   try {
     const { department, year, category, search } = req.query;
@@ -71,7 +67,6 @@ export const getAllBooks = async (req, res, next) => {
   }
 };
 
-// Get single book
 export const getBook = async (req, res, next) => {
   try {
     const book = await Book.findById(req.params.bookId)
@@ -93,9 +88,6 @@ export const getBook = async (req, res, next) => {
   }
 };
 
-// ============ NOTES ============
-
-// Upload note
 export const uploadNote = async (req, res, next) => {
   try {
     const { name, category, department, year } = req.body;
@@ -131,7 +123,6 @@ export const uploadNote = async (req, res, next) => {
   }
 };
 
-// Get all notes
 export const getAllNotes = async (req, res, next) => {
   try {
     const { department, year, category, search } = req.query;
@@ -161,7 +152,6 @@ export const getAllNotes = async (req, res, next) => {
   }
 };
 
-// Get single note
 export const getNote = async (req, res, next) => {
   try {
     const note = await Note.findById(req.params.noteId)
@@ -183,9 +173,6 @@ export const getNote = async (req, res, next) => {
   }
 };
 
-// ============ PYQs ============
-
-// Upload PYQ
 export const uploadPYQ = async (req, res, next) => {
   try {
     const { name, category, department, year } = req.body;
@@ -221,7 +208,6 @@ export const uploadPYQ = async (req, res, next) => {
   }
 };
 
-// Get all PYQs
 export const getAllPYQs = async (req, res, next) => {
   try {
     const { department, year, category, search } = req.query;
@@ -251,7 +237,6 @@ export const getAllPYQs = async (req, res, next) => {
   }
 };
 
-// Get single PYQ
 export const getPYQ = async (req, res, next) => {
   try {
     const pyq = await PYQ.findById(req.params.pyqId)

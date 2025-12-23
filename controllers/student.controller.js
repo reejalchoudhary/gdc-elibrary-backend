@@ -1,6 +1,5 @@
 import User from '../models/User.model.js';
 
-// Get student profile
 export const getProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id).select('-password -refreshToken');
@@ -14,7 +13,6 @@ export const getProfile = async (req, res, next) => {
   }
 };
 
-// Update student profile (limited fields)
 export const updateProfile = async (req, res, next) => {
   try {
     const { name, mobile } = req.body;
@@ -42,6 +40,7 @@ export const updateProfile = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 

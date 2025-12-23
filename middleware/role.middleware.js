@@ -1,4 +1,3 @@
-// Check if user is admin
 export const isAdmin = (req, res, next) => {
   if (!req.user) {
     return res.status(401).json({
@@ -17,7 +16,6 @@ export const isAdmin = (req, res, next) => {
   next();
 };
 
-// Check if user is student
 export const isStudent = (req, res, next) => {
   if (!req.user) {
     return res.status(401).json({
@@ -33,7 +31,6 @@ export const isStudent = (req, res, next) => {
     });
   }
 
-  // Check if student is approved
   if (req.user.status !== 'approved') {
     return res.status(403).json({
       success: false,
@@ -44,7 +41,6 @@ export const isStudent = (req, res, next) => {
   next();
 };
 
-// Check if user is approved (for students)
 export const isApproved = (req, res, next) => {
   if (!req.user) {
     return res.status(401).json({
@@ -62,6 +58,7 @@ export const isApproved = (req, res, next) => {
 
   next();
 };
+
 
 
 
