@@ -54,5 +54,5 @@ bookSchema.index({ category: 1 });
 
 const Book = mongoose.model('Book', bookSchema);
 
-export default Book;
+export default Book; 
 
