@@ -2,6 +2,24 @@ import Resource from "../models/Resource.model.js";
 
 export const getResources = async (req, res) => {
   try {
+  const resources = await Resource.find({
+  status: "approved",
+   }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: resources.length,
+      data: resources,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+export const getAllResourcesAdmin = async (req, res) => {
+  try {
     const resources = await Resource.find().sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -9,6 +27,7 @@ export const getResources = async (req, res) => {
       count: resources.length,
       data: resources,
     });
+
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -49,6 +68,72 @@ export const createResource = async (req, res) => {
       message: "Resource added successfully",
       data: resource,
     });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const approveResource = async (req, res) => {
+  try {
+    const resource = await Resource.findByIdAndUpdate(
+      req.params.id,
+      {
+        status: "approved",
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!resource) {
+      return res.status(404).json({
+        success: false,
+        message: "Resource not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Resource approved successfully",
+      data: resource,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const rejectResource = async (req, res) => {
+  try {
+    const resource = await Resource.findByIdAndUpdate(
+      req.params.id,
+      {
+        status: "rejected",
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!resource) {
+      return res.status(404).json({
+        success: false,
+        message: "Resource not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Resource rejected successfully",
+      data: resource,
+    });
+
   } catch (error) {
     res.status(500).json({
       success: false,

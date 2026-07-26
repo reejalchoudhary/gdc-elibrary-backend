@@ -3,6 +3,7 @@ import Book from '../models/Book.model.js';
 import Note from '../models/Note.model.js';
 import PYQ from '../models/PYQ.model.js';
 import Discussion from '../models/Discussion.model.js';
+import Resource from '../models/Resource.model.js';
 
 export const getAllStudents = async (req, res, next) => {
   try {
@@ -265,16 +266,25 @@ export const deleteDiscussionMessage = async (req, res, next) => {
 
 export const getDashboardStats = async (req, res, next) => {
   try {
-    const [
-      totalStudents,
-      pendingStudents,
-      approvedStudents,
-      blockedStudents,
-      totalBooks,
-      totalNotes,
-      totalPYQs,
-      totalDiscussions
-    ] = await Promise.all([
+  const [
+    totalStudents,
+    pendingStudents,
+    approvedStudents,
+    blockedStudents,
+    totalBooks,
+    totalNotes,
+    totalPYQs,
+    totalDiscussions,
+
+    totalResources,
+    approvedResources,
+    pendingResources,
+    rejectedResources,
+
+    totalBooksFromResources,
+    totalNotesFromResources,
+    totalPYQsFromResources
+  ] = await Promise.all([
       User.countDocuments({ role: 'student' }),
       User.countDocuments({ role: 'student', status: 'pending' }),
       User.countDocuments({ role: 'student', status: 'approved' }),
@@ -282,8 +292,25 @@ export const getDashboardStats = async (req, res, next) => {
       Book.countDocuments(),
       Note.countDocuments(),
       PYQ.countDocuments(),
-      Discussion.countDocuments()
+      Discussion.countDocuments(),
+
+      Resource.countDocuments(),
+      Resource.countDocuments({ status: 'approved' }),
+      Resource.countDocuments({ status: 'pending' }),
+      Resource.countDocuments({ status: 'rejected' }),
+      Resource.countDocuments({ type: 'Book' }),
+      Resource.countDocuments({ type: 'Notes' }),
+      Resource.countDocuments({ type: 'PYQ' })
     ]);
+
+    console.log(await Resource.distinct("status"));
+
+    console.log({
+  totalResources,
+  approvedResources,
+  pendingResources,
+  rejectedResources,
+});
 
     res.json({
       success: true,
@@ -295,10 +322,16 @@ export const getDashboardStats = async (req, res, next) => {
           blocked: blockedStudents
         },
         content: {
-          books: totalBooks,
-          notes: totalNotes,
-          pyqs: totalPYQs,
+          books: totalBooksFromResources,
+          notes: totalNotesFromResources,
+          pyqs: totalPYQsFromResources,
           discussions: totalDiscussions
+        },
+        resources: {
+          total: totalResources,
+          approved: approvedResources,
+          pending: pendingResources,
+          rejected: rejectedResources
         }
       }
     });
